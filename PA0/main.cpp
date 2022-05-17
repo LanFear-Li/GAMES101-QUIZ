@@ -30,6 +30,14 @@ int main(){
     std::cout << v * 3.0f << std::endl;
     std::cout << 2.0f * v << std::endl;
 
+    std::cout << "dot product \n";
+    std::cout << v.dot(w) << std::endl;
+    std::cout << w.dot(v) << std::endl;
+
+    std::cout << "cross product \n";
+    std::cout << v.cross(w) << std::endl;
+    std::cout << w.cross(v) << std::endl;
+
     // Example of matrix
     std::cout << "Example of matrix \n";
     // matrix definition
@@ -39,10 +47,20 @@ int main(){
     // matrix output
     std::cout << "Example of output \n";
     std::cout << i << std::endl;
-    // matrix add i + j
-    // matrix scalar multiply i * 2.0
-    // matrix multiply i * j
-    // matrix multiply vector i * v
+    std::cout << j << std::endl;
+
+    // matrix manipulation
+    std::cout << "matrix add \n";
+    std::cout <<  i + j << std::endl;
+
+    std::cout << "matrix scalar multiply \n";
+    std::cout << i * 2.0 << std::endl;
+
+    std::cout << "matrix multiply \n";
+    std::cout << i * j << std::endl;
+
+    std::cout << "matrix multiply vector \n";
+    std::cout << i * v << std::endl;
 
     return 0;
 }
