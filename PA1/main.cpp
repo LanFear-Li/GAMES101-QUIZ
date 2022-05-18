@@ -1,51 +1,67 @@
-#include "Triangle.hpp"
 #include "rasterizer.hpp"
-#include <eigen3/Eigen/Eigen>
-#include <iostream>
-#include <opencv2/opencv.hpp>
 
 constexpr double MY_PI = 3.1415926;
 
-Eigen::Matrix4f get_view_matrix(Eigen::Vector3f eye_pos)
-{
+Eigen::Matrix4f get_view_matrix(Eigen::Vector3f eye_pos) {
     Eigen::Matrix4f view = Eigen::Matrix4f::Identity();
 
     Eigen::Matrix4f translate;
     translate << 1, 0, 0, -eye_pos[0], 0, 1, 0, -eye_pos[1], 0, 0, 1,
-        -eye_pos[2], 0, 0, 0, 1;
+            -eye_pos[2], 0, 0, 0, 1;
 
     view = translate * view;
 
     return view;
 }
 
-Eigen::Matrix4f get_model_matrix(float rotation_angle)
-{
+Eigen::Matrix4f get_model_matrix(float rotation_angle) {
     Eigen::Matrix4f model = Eigen::Matrix4f::Identity();
 
-    // TODO: Implement this function
-    // Create the model matrix for rotating the triangle around the Z axis.
-    // Then return it.
+    model << cos(rotation_angle), -sin(rotation_angle), 0, 0,
+            sin(rotation_angle), cos(rotation_angle), 0, 0,
+            0, 0, 1, 0,
+            0, 0, 0, 1;
 
     return model;
 }
 
-Eigen::Matrix4f get_projection_matrix(float eye_fov, float aspect_ratio,
-                                      float zNear, float zFar)
-{
-    // Students will implement this function
-
+Eigen::Matrix4f get_projection_matrix(float eye_fov, float aspect_ratio, float zNear, float zFar) {
     Eigen::Matrix4f projection = Eigen::Matrix4f::Identity();
+    Eigen::Matrix4f persp_to_ortho, ortho;
+    Eigen::Matrix4f translate, scale;
 
-    // TODO: Implement this function
-    // Create the projection matrix for the given parameters.
-    // Then return it.
+    float n = zNear, f = zFar;
+    float l, r, b, t;
 
+    // perspective to orthography
+    persp_to_ortho << n, 0, 0, 0,
+            0, n, 0, 0,
+            0, 0, n + f, -n * f,
+            0, 0, 1, 0;
+
+    // field of view(vertical) and width/height ratio to (l r b t)
+    t = n * tan(eye_fov / 2);
+    b = -t;
+    r = t * aspect_ratio;
+    l = -r;
+
+    // orthography
+    translate << 1, 0, 0, -(r + l) / 2,
+            0, 1, 0, -(t + b) / 2,
+            0, 0, 1, -(n + f) / 2,
+            0, 0, 0, 1;
+
+    scale << 2 / (r - l), 0, 0, 0,
+            0, 2 / (t - b), 0, 0,
+            0, 0, 2 / (n - f), 0,
+            0, 0, 0, 1;
+    ortho = scale * translate;
+
+    projection = ortho * persp_to_ortho;
     return projection;
 }
 
-int main(int argc, const char** argv)
-{
+int main(int argc, const char **argv) {
     float angle = 0;
     bool command_line = false;
     std::string filename = "output.png";
@@ -55,8 +71,7 @@ int main(int argc, const char** argv)
         angle = std::stof(argv[2]); // -r by default
         if (argc == 4) {
             filename = std::string(argv[3]);
-        }
-        else
+        } else
             return 0;
     }
 
@@ -64,7 +79,9 @@ int main(int argc, const char** argv)
 
     Eigen::Vector3f eye_pos = {0, 0, 5};
 
-    std::vector<Eigen::Vector3f> pos{{2, 0, -2}, {0, 2, -2}, {-2, 0, -2}};
+    std::vector<Eigen::Vector3f> pos{{2,  0, -2},
+                                     {0,  2, -2},
+                                     {-2, 0, -2}};
 
     std::vector<Eigen::Vector3i> ind{{0, 1, 2}};
 
@@ -108,8 +125,7 @@ int main(int argc, const char** argv)
 
         if (key == 'a') {
             angle += 10;
-        }
-        else if (key == 'd') {
+        } else if (key == 'd') {
             angle -= 10;
         }
     }
