@@ -17,6 +17,7 @@ Eigen::Matrix4f get_view_matrix(Eigen::Vector3f eye_pos) {
 Eigen::Matrix4f get_model_matrix(float rotation_angle) {
     Eigen::Matrix4f model = Eigen::Matrix4f::Identity();
 
+    rotation_angle = rotation_angle / 180 * MY_PI;
     model << cos(rotation_angle), -sin(rotation_angle), 0, 0,
             sin(rotation_angle), cos(rotation_angle), 0, 0,
             0, 0, 1, 0,
@@ -32,6 +33,7 @@ Eigen::Matrix4f get_projection_matrix(float eye_fov, float aspect_ratio, float z
 
     float n = zNear, f = zFar;
     float l, r, b, t;
+    eye_fov = eye_fov * MY_PI / 180;
 
     // perspective to orthography
     persp_to_ortho << n, 0, 0, 0,
@@ -40,7 +42,7 @@ Eigen::Matrix4f get_projection_matrix(float eye_fov, float aspect_ratio, float z
             0, 0, 1, 0;
 
     // field of view(vertical) and width/height ratio to (l r b t)
-    t = n * tan(eye_fov / 2);
+    t = -n * tanf(eye_fov / 2);
     b = -t;
     r = t * aspect_ratio;
     l = -r;
