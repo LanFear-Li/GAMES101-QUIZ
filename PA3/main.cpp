@@ -250,8 +250,12 @@ Eigen::Vector3f bump_fragment_shader(const fragment_shader_payload &payload) {
 
     float u = payload.tex_coords.x(), v = payload.tex_coords.y();
     float w = payload.texture->width, h = payload.texture->height;
+
+    // calculate bump tangent at flatland
     float dU = kh * kn * (payload.texture->getColor(u + 1.0f / w, v).norm() - payload.texture->getColor(u, v).norm());
     float dV = kh * kn * (payload.texture->getColor(u, v + 1.0f / h).norm() - payload.texture->getColor(u, v).norm());
+
+    // perturbed norm
     Vector3f ln(-dU, -dV, 1);
     normal = (TBN * ln).normalized();
 
