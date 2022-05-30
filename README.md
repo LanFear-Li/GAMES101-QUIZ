@@ -12,6 +12,8 @@
 
 **效果**
 
+<p align="center"><img src="https://raw.githubusercontent.com/LanFear-Li/GAMES101-QUIZ/main/Appendix/pa1-1.png" style="zoom: 60%;text-align: left"/></p>
+
 如图所示为经过光栅化后投影到屏幕的三角形，可通过AD键修改模型绕$z$轴旋转角度使三角形旋转。
 
 ## PA2 - Triangles and Z-buffering
@@ -29,6 +31,8 @@
 对于朴素做法：可通过判断点和三角形各顶点连线形成的向量与对应的边向量做叉乘得到，若三次叉乘在Z轴的方向相等，则表明点在三角形内部。
 
 **效果**
+
+<p align="center"><img src="https://raw.githubusercontent.com/LanFear-Li/GAMES101-QUIZ/main/Appendix/pa2-1.png" style="zoom: 60%;text-align: left"/></p>
 
 如图所示绿色三角形的深度小于蓝色三角形，故其覆盖了部分蓝色。
 
@@ -52,6 +56,16 @@ Blinn-Phong Reflection Model将点光源的作用分成三个部分：镜面反�
 
 **效果**
 
+<p align="center"><img src="https://raw.githubusercontent.com/LanFear-Li/GAMES101-QUIZ/main/Appendix/pa3-1.png" style="zoom: 60%;text-align: left"/></p>
+
+<p align="center"><img src="https://raw.githubusercontent.com/LanFear-Li/GAMES101-QUIZ/main/Appendix/pa3-2.png" style="zoom: 60%;text-align: left"/></p>
+
+<p align="center"><img src="https://raw.githubusercontent.com/LanFear-Li/GAMES101-QUIZ/main/Appendix/pa3-3.png" style="zoom: 60%;text-align: left"/></p>
+
+<p align="center"><img src="https://raw.githubusercontent.com/LanFear-Li/GAMES101-QUIZ/main/Appendix/pa3-4.png" style="zoom: 60%;text-align: left"/></p>
+
+<p align="center"><img src="https://raw.githubusercontent.com/LanFear-Li/GAMES101-QUIZ/main/Appendix/pa3-5.png" style="zoom: 60%;text-align: left"/></p>
+
 ## PA4 - Bezier Curve
 
 我们通常需要各种形状的曲线来模拟出三维模型的外观，那么我们需要绘制可控制曲线的方法。在PA4中：
@@ -64,6 +78,8 @@ Blinn-Phong Reflection Model将点光源的作用分成三个部分：镜面反�
 
 **效果**
 
+<p align="center"><img src="https://raw.githubusercontent.com/LanFear-Li/GAMES101-QUIZ/main/Appendix/pa4-1.png" style="zoom: 60%;text-align: left"/></p>
+
 ## PA5 - Ray Triangle Intersection
 
 光线追踪是和光栅化不同的做法，其渲染效果要优于光栅化，但是要花费更多的时间。其首要问题在于计算光线与物体是否存在交点。在PA5中：
@@ -73,6 +89,8 @@ Blinn-Phong Reflection Model将点光源的作用分成三个部分：镜面反�
 对于光线和三角形的交点判断，朴素做法是首先计算光线在三角形所在平面点的坐标，然后判断该点是否在三角形内部即可。Moller-Trumbore利用三角形的重心坐标，将光线方程与三角形内部点的重心坐标方程联立，并根据光线和重心坐标的附加条件即可判断。
 
 **效果**
+
+<p align="center"><img src="https://raw.githubusercontent.com/LanFear-Li/GAMES101-QUIZ/main/Appendix/pa5-1.png" style="zoom: 60%;text-align: left"/></p>
 
 如图所示为光线追踪下光线多次折射/反射后的渲染效果。
 
@@ -89,4 +107,6 @@ Blinn-Phong Reflection Model将点光源的作用分成三个部分：镜面反�
 BVH是一种树形结构，该函数通过递归遍历BVH各节点的左右子节点并在叶节点求出物体与光线的交点实现。
 
 **效果**
+
+<p align="center"><img src="https://raw.githubusercontent.com/LanFear-Li/GAMES101-QUIZ/main/Appendix/pa6-1.png" style="zoom: 50%;text-align: left"/></p>
 
