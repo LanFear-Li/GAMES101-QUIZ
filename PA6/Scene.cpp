@@ -1,25 +1,18 @@
-//
-// Created by Göksu Güvendiren on 2019-05-14.
-//
-
 #include "Scene.hpp"
-
 
 void Scene::buildBVH() {
     printf(" - Generating BVH...\n\n");
     this->bvh = new BVHAccel(objects, 1, BVHAccel::SplitMethod::NAIVE);
 }
 
-Intersection Scene::intersect(const Ray &ray) const
-{
+Intersection Scene::intersect(const Ray &ray) const {
     return this->bvh->Intersect(ray);
 }
 
 bool Scene::trace(
         const Ray &ray,
-        const std::vector<Object*> &objects,
-        float &tNear, uint32_t &index, Object **hitObject)
-{
+        const std::vector<Object *> &objects,
+        float &tNear, uint32_t &index, Object **hitObject) {
     *hitObject = nullptr;
     for (uint32_t k = 0; k < objects.size(); ++k) {
         float tNearK = kInfinity;
@@ -50,10 +43,9 @@ bool Scene::trace(
 //
 // If the surface is duffuse/glossy we use the Phong illumation model to compute the color
 // at the intersection point.
-Vector3f Scene::castRay(const Ray &ray, int depth) const
-{
+Vector3f Scene::castRay(const Ray &ray, int depth) const {
     if (depth > this->maxDepth) {
-        return Vector3f(0.0,0.0,0.0);
+        return Vector3f(0.0, 0.0, 0.0);
     }
     Intersection intersection = Scene::intersect(ray);
     Material *m = intersection.m;
@@ -62,7 +54,7 @@ Vector3f Scene::castRay(const Ray &ray, int depth) const
 //    float tnear = kInfinity;
     Vector2f uv;
     uint32_t index = 0;
-    if(intersection.happened) {
+    if (intersection.happened) {
 
         Vector3f hitPoint = intersection.coords;
         Vector3f N = intersection.normal; // normal
@@ -70,8 +62,7 @@ Vector3f Scene::castRay(const Ray &ray, int depth) const
         hitObject->getSurfaceProperties(hitPoint, ray.direction, index, uv, N, st);
 //        Vector3f tmp = hitPoint;
         switch (m->getType()) {
-            case REFLECTION_AND_REFRACTION:
-            {
+            case REFLECTION_AND_REFRACTION: {
                 Vector3f reflectionDirection = normalize(reflect(ray.direction, N));
                 Vector3f refractionDirection = normalize(refract(ray.direction, N, m->ior));
                 Vector3f reflectionRayOrig = (dotProduct(reflectionDirection, N) < 0) ?
@@ -87,19 +78,17 @@ Vector3f Scene::castRay(const Ray &ray, int depth) const
                 hitColor = reflectionColor * kr + refractionColor * (1 - kr);
                 break;
             }
-            case REFLECTION:
-            {
+            case REFLECTION: {
                 float kr;
                 fresnel(ray.direction, N, m->ior, kr);
                 Vector3f reflectionDirection = reflect(ray.direction, N);
                 Vector3f reflectionRayOrig = (dotProduct(reflectionDirection, N) < 0) ?
                                              hitPoint + N * EPSILON :
                                              hitPoint - N * EPSILON;
-                hitColor = castRay(Ray(reflectionRayOrig, reflectionDirection),depth + 1) * kr;
+                hitColor = castRay(Ray(reflectionRayOrig, reflectionDirection), depth + 1) * kr;
                 break;
             }
-            default:
-            {
+            default: {
                 // [comment]
                 // We use the Phong illumation model int the default case. The phong model
                 // is composed of a diffuse and a specular reflection component.
@@ -112,15 +101,11 @@ Vector3f Scene::castRay(const Ray &ray, int depth) const
                 // Loop over all lights in the scene and sum their contribution up
                 // We also apply the lambert cosine law
                 // [/comment]
-                for (uint32_t i = 0; i < get_lights().size(); ++i)
-                {
-                    auto area_ptr = dynamic_cast<AreaLight*>(this->get_lights()[i].get());
-                    if (area_ptr)
-                    {
+                for (uint32_t i = 0; i < get_lights().size(); ++i) {
+                    auto area_ptr = dynamic_cast<AreaLight *>(this->get_lights()[i].get());
+                    if (area_ptr) {
                         // Do nothing for this assignment
-                    }
-                    else
-                    {
+                    } else {
                         Vector3f lightDir = get_lights()[i]->position - hitPoint;
                         // square of the distance between hitPoint and the light
                         float lightDistance2 = dotProduct(lightDir, lightDir);
