@@ -110,3 +110,14 @@ BVH是一种树形结构，该函数通过递归遍历BVH各节点的左右子�
 
 <p align="center"><img src="https://raw.githubusercontent.com/LanFear-Li/GAMES101-QUIZ/main/Appendix/pa6-1.png" style="zoom: 50%;text-align: left"/></p>
 
+## PA7 - Path Tracing
+
+对于光线追踪，传统方式是Whitted-Style Ray Tracing，其在光线弹射的处理做了相应简化，规定只有高光材质的物体才会弹射光线。而在现实中这样显然是不准确的。通过辐射度量学我们可以精准定义空间某点汇聚光的能量以及正确处理光线弹射。在PA7中：
+
+**实现路径追踪算法**`castRay (Scene.cpp)`
+
+光线追踪的思路是从视点向屏幕的每个像素投射若干光线，计算每个光线第一个交点汇聚的光线能量。考虑该点的实际光线来源，可以分为两种情况：光线来自某一光源与光线来自某点的弹射，对于二者分别计算。
+
+**效果**
+
+<p align="center"><img src="https://raw.githubusercontent.com/LanFear-Li/GAMES101-QUIZ/main/Appendix/pa7-1.png" style="zoom: 50%;text-align: left"/></p>
