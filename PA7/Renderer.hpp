@@ -1,21 +1,22 @@
-//
-// Created by goksu on 2/25/20.
-//
+#ifndef RAYTRACING_RENDERER_H
+#define RAYTRACING_RENDERER_H
+
+#include <fstream>
+
 #include "Scene.hpp"
 
-#pragma once
-struct hit_payload
-{
+struct hit_payload {
     float tNear;
     uint32_t index;
     Vector2f uv;
-    Object* hit_obj;
+    Object *hit_obj;
 };
 
-class Renderer
-{
+class Renderer {
 public:
-    void Render(const Scene& scene);
+    void Render(const Scene &scene);
 
 private:
 };
+
+#endif //RAYTRACING_RENDERER_H
