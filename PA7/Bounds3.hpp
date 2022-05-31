@@ -90,13 +90,42 @@ class Bounds3
 
 
 
-inline bool Bounds3::IntersectP(const Ray& ray, const Vector3f& invDir,
-                                const std::array<int, 3>& dirIsNeg) const
-{
+inline bool Bounds3::IntersectP(const Ray &ray, const Vector3f &invDir, const std::array<int, 3> &dirIsNeg) const {
     // invDir: ray direction(x,y,z), invDir=(1.0/x,1.0/y,1.0/z), use this because Multiply is faster that Division
     // dirIsNeg: ray direction(x,y,z), dirIsNeg=[int(x>0),int(y>0),int(z>0)], use this to simplify your logic
     // TODO test if ray bound intersects
 
+    float min_x, min_y, min_z;
+    float max_x, max_y, max_z;
+    if (dirIsNeg[0]) {
+        min_x = (pMin.x - ray.origin.x) * invDir.x;
+        max_x = (pMax.x - ray.origin.x) * invDir.x;
+    } else {
+        max_x = (pMin.x - ray.origin.x) * invDir.x;
+        min_x = (pMax.x - ray.origin.x) * invDir.x;
+    }
+
+    if (dirIsNeg[1]) {
+        min_y = (pMin.y - ray.origin.y) * invDir.y;
+        max_y = (pMax.y - ray.origin.y) * invDir.y;
+    } else {
+        max_y = (pMin.y - ray.origin.y) * invDir.y;
+        min_y = (pMax.y - ray.origin.y) * invDir.y;
+    }
+
+    if (dirIsNeg[2]) {
+        min_z = (pMin.z - ray.origin.z) * invDir.z;
+        max_z = (pMax.z - ray.origin.z) * invDir.z;
+    } else {
+        max_z = (pMin.z - ray.origin.z) * invDir.z;
+        min_z = (pMax.z - ray.origin.z) * invDir.z;
+    }
+
+    float left = fmax(min_x, fmax(min_y, min_z));
+    float right = fmin(max_x, fmin(max_y, max_z));
+
+    if (left <= right && right >= 0) return true;
+    return false;
 }
 
 inline Bounds3 Union(const Bounds3& b1, const Bounds3& b2)

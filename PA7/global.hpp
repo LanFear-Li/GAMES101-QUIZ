@@ -48,6 +48,6 @@ inline void UpdateProgress(float progress)
         else if (i == pos) std::cout << ">";
         else std::cout << " ";
     }
-    std::cout << "] " << int(progress * 100.0) << " %\r";
+    std::cout << "] " << progress * 100 << " %\r";
     std::cout.flush();
 };
