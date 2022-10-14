@@ -121,3 +121,11 @@ BVH是一种树形结构，该函数通过递归遍历BVH各节点的左右子�
 **效果**
 
 <p align="center"><img src="https://raw.githubusercontent.com/LanFear-Li/GAMES101-QUIZ/main/Appendix/pa7-1.png" style="zoom: 50%;text-align: left"/></p>
+
+## PA8 - Mass Spring System
+
+在计算机动画领域最简单的模型就是质点弹簧系统，通过基本的力学定律即可实现。
+
+**效果**
+
+<p align="center"><img src="https://raw.githubusercontent.com/LanFear-Li/GAMES101-QUIZ/main/Appendix/pa8-1.png" style="zoom: 50%;text-align: left"/></p>
